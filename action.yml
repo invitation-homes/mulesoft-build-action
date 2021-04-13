@@ -1,0 +1,16 @@
+name: 'mulesoft-build-action'
+description: 'action responsible to build mule projects'
+author: 'Faisal Khanani'
+
+inputs:
+  GITHUB_TOKEN:
+    description: 'GitHub token'
+    required: true
+  buildArgs:
+    description: 'Json object'
+    required: false
+    default: "{}"
+    
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
