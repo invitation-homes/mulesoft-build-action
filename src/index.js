@@ -33,7 +33,7 @@ async function main() {
 
 main();
 
-async function releaseExists(octoKit, context, release_tag){
+async function releaseExists(octokit, context, release_tag){
     if (release_tag) {
         try {
           await octokit.repos.getReleaseByTag({
