@@ -10,6 +10,10 @@ inputs:
     description: 'Json object'
     required: false
     default: "{}"
+  testArgs:
+    description: 'Json object'
+    required: false
+    default: "{}"    
     
 runs:
   using: 'node12'
