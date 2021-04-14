@@ -5890,10 +5890,244 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
+/***/ 959:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var core = __nccwpck_require__(186);
+var path = __nccwpck_require__(622);
+var fs = __nccwpck_require__(747);
+var os = __nccwpck_require__(87);
+var DOMParser = __nccwpck_require__(40).DOMParser;
+var XMLSerializer = __nccwpck_require__(40).XMLSerializer;
+const cp = __nccwpck_require__(129);
+const util = __nccwpck_require__(669);
+const exec = util.promisify(cp.exec);
+
+
+function getSettingsTemplate() {
+    core.info("opening settings template");
+    var templatePath = path.join(__dirname, '../template', 'settings.xml');
+    var template = fs.readFileSync(templatePath).toString();
+    return new DOMParser().parseFromString(template, 'text/xml');
+}
+
+function writeSettings(settingsPath, templateXml) {
+    if (!fs.existsSync(path.dirname(settingsPath))) {
+        core.info("creating ~/.m2 directory");
+        fs.mkdirSync(path.dirname(settingsPath));
+    }
+
+    core.info("writing settings.xml to path: " + settingsPath)
+    var settingStr = new XMLSerializer().serializeToString(templateXml);
+    fs.writeFileSync(settingsPath, settingStr);
+}
+
+function updateServers(templateXml, serversInput) {
+
+    if (!serversInput) {
+        return;
+    }
+
+    var serversXml = templateXml.getElementsByTagName('servers')[0];
+
+    JSON.parse(serversInput).forEach((serverInput) => {
+        var serverXml = templateXml.createElement('server');
+        for (var key in serverInput) {
+            var keyXml = templateXml.createElement(key);
+            keyXml.textContent = serverInput[key];
+            serverXml.appendChild(keyXml);
+        }
+        serversXml.appendChild(serverXml);
+    });
+
+}
+
+function updateMirrors(templateXml, mirrorsInput) {
+
+    if (!mirrorsInput) {
+        return;
+    }
+
+    var mirrorsXml = templateXml.getElementsByTagName('mirrors')[0];
+
+    JSON.parse(mirrorsInput).forEach((mirrorInput) => {
+        var mirrorXml = templateXml.createElement('mirror');
+        for (var key in mirrorInput) {
+            var keyXml = templateXml.createElement(key);
+            keyXml.textContent = mirrorInput[key];
+            mirrorXml.appendChild(keyXml);
+        }
+        mirrorsXml.appendChild(mirrorXml);
+    });
+
+}
+
+function updateRepositories(templateXml, repositoriesInput) {
+
+    if (!repositoriesInput) {
+        return;
+    }
+
+    var repositoriesXml =
+        templateXml.getElementsByTagName('profiles')[0]
+            .getElementsByTagName('repositories')[0];
+
+    JSON.parse(repositoriesInput).forEach((repositoryInput) => {
+        var repositoryXml = templateXml.createElement('repository');
+        for (var key in repositoryInput) {
+            var keyXml = templateXml.createElement(key);
+            var child = repositoryInput[key];
+            if (child === Object(child)) {
+                var childXml = templateXml.createElement(key);
+                for (var childKey in child) {
+                    if (Object.prototype.hasOwnProperty.call(child, childKey)) {
+                        var childElement = templateXml.createElement(childKey);
+                        childElement.textContent = child[childKey];
+                        childXml.appendChild(childElement);
+                    }
+                }
+                repositoryXml.appendChild(childXml);
+            } else {
+                keyXml.textContent = repositoryInput[key];
+                repositoryXml.appendChild(keyXml);
+            }
+        }
+        repositoriesXml.appendChild(repositoryXml);
+    });
+}
+
+function updatePluginRepositories(templateXml, pluginRepositoriesInput) {
+
+    if (!pluginRepositoriesInput) {
+        return;
+    }
+
+    var pluginRepositoriesXml =
+        templateXml.getElementsByTagName('profiles')[0]
+            .getElementsByTagName('pluginRepositories')[0];
+
+    JSON.parse(pluginRepositoriesInput).forEach((pluginRepositoryInput) => {
+        var pluginRepositoryXml = templateXml.createElement('pluginRepository');
+        for (var key in pluginRepositoryInput) {
+            var keyXml = templateXml.createElement(key);
+            var child = pluginRepositoryInput[key];
+            if (child === Object(child)) {
+                var childXml = templateXml.createElement(key);
+                for (var childKey in child) {
+                    if (Object.prototype.hasOwnProperty.call(child, childKey)) {
+                        var childElement = templateXml.createElement(childKey);
+                        childElement.textContent = child[childKey];
+                        childXml.appendChild(childElement);
+                    }
+                }
+                pluginRepositoryXml.appendChild(childXml);
+            } else {
+                keyXml.textContent = pluginRepositoryInput[key];
+                pluginRepositoryXml.appendChild(keyXml);
+            }
+        }
+        pluginRepositoriesXml.appendChild(pluginRepositoryXml);
+    });
+}
+
+function updateProfiles(templateXml, profilesInput) {
+
+    if (!profilesInput) {
+        return;
+    }
+
+    var profilesXml =
+        templateXml.getElementsByTagName('profiles')[0];
+
+    JSON.parse(profilesInput).forEach((profileInput) => {
+        var profileXml = templateXml.createElement('profile');
+        for (var key in profileInput) {
+            var keyXml = templateXml.createElement(key);
+            var child = profileInput[key];
+            if (child === Object(child)) {
+                var childXml = templateXml.createElement(key);
+                for (var childKey in child) {
+                    if (Object.prototype.hasOwnProperty.call(child, childKey)) {
+                        var childElement = templateXml.createElement(childKey);
+                        childElement.textContent = child[childKey];
+                        childXml.appendChild(childElement);
+                    }
+                }
+                profileXml.appendChild(childXml);
+            } else {
+                keyXml.textContent = profileInput[key];
+                profileXml.appendChild(keyXml);
+            }
+        }
+        profilesXml.appendChild(profileXml);
+    });
+}
+
+function updatePluginGroups(templateXml, pluginGroupsInput) {
+
+    if (!pluginGroupsInput) {
+        return;
+    }
+
+    var pluginGroupsXml = templateXml.getElementsByTagName('pluginGroups')[0];
+
+    JSON.parse(pluginGroupsInput).forEach((pluginGroupInput) => {
+        var pluginGroupXml = templateXml.createElement('pluginGroup');
+        pluginGroupXml.textContent = pluginGroupInput;
+        pluginGroupsXml.appendChild(pluginGroupXml);
+    });
+
+}
+
+function generateMavenSettings(mavenSettings) {
+
+    var templateXml = getSettingsTemplate();
+    updateServers(templateXml, JSON.stringify(mavenSettings.servers));
+    updateMirrors(templateXml, JSON.stringify(mavenSettings.mirrors));
+    updateRepositories(templateXml, JSON.stringify(mavenSettings.repositories));
+    updatePluginRepositories(templateXml, JSON.stringify(mavenSettings.plugin_repositories));
+    updateProfiles(templateXml, JSON.stringify(mavenSettings.profiles));
+    updatePluginGroups(templateXml, JSON.stringify(mavenSettings.plugin_groups));
+
+    var settingsPath = path.join(os.homedir(), '.m2', 'settings.xml');
+    writeSettings(settingsPath, templateXml);
+}
+
+async function build(testArgs, mavenSettings) {
+    core.info("Building project artifact ...");
+
+    if (mavenSettings)
+        generateMavenSettings(mavenSettings);
+
+    var build_command = 'mvn -B package --file pom.xml ';
+    if (testArgs) {
+        for (const key in testArgs) {
+            build_command += "-D" + key + "=" + testArgs[key] + " "
+        }
+    }
+    const build = await exec(build_command);
+    core.info('Build logs ', build.stdout);
+    return true;
+}
+
+module.exports = {
+    build
+ }
+
+/***/ }),
+
 /***/ 877:
 /***/ ((module) => {
 
 module.exports = eval("require")("encoding");
+
+
+/***/ }),
+
+/***/ 40:
+/***/ ((module) => {
+
+module.exports = eval("require")("xmldom");
 
 
 /***/ }),
@@ -6055,6 +6289,7 @@ const cp = __nccwpck_require__(129);
 const util = __nccwpck_require__(669);
 const fs = __nccwpck_require__(747);
 const exec = util.promisify(cp.exec);
+const maven = __nccwpck_require__(959);
 
 async function main() {
   const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN');
@@ -6071,7 +6306,7 @@ async function main() {
       core.setFailed("Cancelling the subsequent step(s). " + buildArgs.release_tag + " already exists!")
       return;
     }
-    if (await buildPackage(testArgs)) {
+    if (await maven.build(testArgs, buildArgs.mavenSettings)) {
       await createRelease(octokit, context, buildArgs.release_tag);
     }
     console.log("action executed successfully.");
@@ -6100,20 +6335,6 @@ async function releaseExists(octokit, context, release_tag) {
       else throw error;
     }
   }
-  return true;
-}
-
-async function buildPackage(testArgs) {
-  console.log("Building project artifact ...");
-
-  var build_command = 'mvn -B package --file pom.xml ';
-  if (testArgs) {
-    for (const key in testArgs) {
-      build_command += "-D" + key + "=" + testArgs[key] + " "
-    }
-  }
-  const build = await exec(build_command);
-  console.log('Build logs ', build.stdout);
   return true;
 }
 
