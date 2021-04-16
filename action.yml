@@ -3,14 +3,10 @@ description: 'action responsible to build mule projects'
 author: 'Faisal Khanani'
 
 inputs:
-  GITHUB_TOKEN:
-    description: 'GitHub token'
+  release-tag:
+    description: 'release number to be build'
     required: true
-  buildArgs:
-    description: 'Json object'
-    required: false
-    default: "{}"
-  testArgs:
+  test-args:
     description: 'Json object'
     required: false
     default: "{}"    

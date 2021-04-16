@@ -7,22 +7,23 @@ const exec = util.promisify(cp.exec);
 const maven = require('./maven');
 
 async function main() {
-  const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN');
-  const buildArgs = JSON.parse(core.getInput('buildArgs'));
-  const testArgs = JSON.parse(core.getInput('testArgs'));
+  const release_tag=core.getInput('release-tag');
+  if (!release_tag) return;
 
-  if (!buildArgs) return;
-
+  const test_args = JSON.parse(core.getInput('test-args'));
+  const GITHUB_TOKEN = process.env.github_token;
+  const MULESOFT_NEXUS_USER = process.env.mulesoft_nexus_user;
+  const MULESOFT_NEXUS_PASSWORD = process.env.mulesoft_nexus_password;
   const octokit = github.getOctokit(GITHUB_TOKEN);
   const { context = {} } = github;
 
   try {
-    if (await releaseExists(octokit, context, buildArgs.release_tag)) {
-      core.setFailed("Cancelling the subsequent step(s). " + buildArgs.release_tag + " already exists!")
+    if (await releaseExists(octokit, context, release_tag)) {
+      core.setFailed("Cancelling the subsequent step(s). " + release_tag + " already exists!")
       return;
     }
-    if (await maven.build(testArgs, buildArgs.mavenSettings)) {
-      await createRelease(octokit, context, buildArgs.release_tag);
+    if (await maven.build(test_args, MULESOFT_NEXUS_USER, MULESOFT_NEXUS_PASSWORD)) {
+      await createRelease(octokit, context, release_tag);
     }
     console.log("action executed successfully.");
     return true;
