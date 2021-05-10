@@ -14966,7 +14966,7 @@ async function build(secret_key, nexusUser, nexusPassword) {
     if (nexusUser && nexusPassword)
         generateMavenSettings(nexusUser, nexusPassword);
 
-    var build_command = 'mvn -B package --file pom.xml -Denv=local ';
+    var build_command = 'mvn -B package --file -X pom.xml -Denv=local ';
     if (secret_key)
         build_command += "-Dsecret.key=" + secret_key + " "
     const build = await exec(build_command);
