@@ -27,7 +27,7 @@
                 <repository>
                     <id>mulesoft-releases</id>
                     <name>MuleSoft Releases Repository</name>
-                    <url>http://repository.mulesoft.org/releases/</url>
+                    <url>https://repository.mulesoft.org/releases/</url>
                 </repository>
             </repositories>
             <pluginRepositories>
@@ -39,7 +39,7 @@
                 <pluginRepository>
                     <id>mulesoft-releases</id>
                     <name>MuleSoft Releases Repository</name>
-                    <url>http://repository.mulesoft.org/releases/</url>
+                    <url>https://repository.mulesoft.org/releases/</url>
                 </pluginRepository>
             </pluginRepositories>
         </profile>
