@@ -59,12 +59,16 @@ async function releaseExists(octokit, context, release_tag) {
 }
 
 async function createRelease(octokit, context, release_tag) {
+  const commit = process.env.GITHUB_SHA
+  console.log(`Creating release ${release_tag} from commit ${commit}`);
+  
   const response = await octokit.repos.createRelease({
     ...context.repo,
     tag_name: release_tag,
     name: "Release " + release_tag,
     draft: false,
-    prerelease: true
+    prerelease: true,
+    target_commitish: commit
   });
 
   console.log('Release ' + release_tag + ' created.');
