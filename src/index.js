@@ -6,6 +6,7 @@ const fs = require('fs');
 const exec = util.promisify(cp.exec);
 const maven = require('./maven');
 const parser = require('xml2js');
+const pager = require('./pagerduty');
 
 
 async function main() {
@@ -16,13 +17,18 @@ async function main() {
   const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
   const MULESOFT_NEXUS_USER = process.env.MULESOFT_NEXUS_USER;
   const MULESOFT_NEXUS_PASSWORD = process.env.MULESOFT_NEXUS_PASSWORD;
+  const PAGERDUTY_INTEGRATION_KEY = process.env.PAGERDUTY_INTEGRATION_KEY;
   const SECRET_KEY = process.env.SECRET_KEY;
   const octokit = github.getOctokit(GITHUB_TOKEN);
   const { context = {} } = github;
 
   try {
     if (await releaseExists(octokit, context, release_tag)) {
-      core.setFailed("Cancelling the subsequent step(s). " + release_tag + " already exists!")
+      let msg = "Cancelling the subsequent step(s). " + release_tag + " already exists!";
+      core.setFailed(msg);
+      if (PAGERDUTY_INTEGRATION_KEY) {
+        pager.makeAndSendPagerAlert(PAGERDUTY_INTEGRATION_KEY, msg);
+      }
       return;
     }
     if (await maven.build(SECRET_KEY, MULESOFT_NEXUS_USER, MULESOFT_NEXUS_PASSWORD)) {
@@ -33,8 +39,7 @@ async function main() {
     return true;
   }
   catch (error) {
-    console.log(error);
-    core.setFailed(error.message)
+    logError(error);
     return;
   }
 }
@@ -61,7 +66,7 @@ async function releaseExists(octokit, context, release_tag) {
 async function createRelease(octokit, context, release_tag) {
   const commit = process.env.GITHUB_SHA
   console.log(`Creating release ${release_tag} from commit ${commit}`);
-  
+
   const response = await octokit.repos.createRelease({
     ...context.repo,
     tag_name: release_tag,
@@ -103,7 +108,14 @@ async function readPOMVersion() {
     return pom.project.version[0];
   }
   catch (error) {
-    console.error(error);
-    core.setFailed("Unable to read POM version.");
+    logError(error);
+  }
+}
+
+function logError(error) {
+  console.log(error);
+  core.setFailed(error.message)
+  if (PAGERDUTY_INTEGRATION_KEY) {
+    pager.makeAndSendPagerAlert(PAGERDUTY_INTEGRATION_KEY, error);
   }
 }
