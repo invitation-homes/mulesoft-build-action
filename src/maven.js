@@ -7,6 +7,8 @@ var XMLSerializer = require('xmldom').XMLSerializer;
 const cp = require('child_process');
 const util = require('util');
 const exec = util.promisify(cp.exec);
+const NEXUS = 0
+const EXCHANGE = 1;
 
 function getSettingsTemplate() {
     core.info("opening settings template");
@@ -27,29 +29,36 @@ function writeSettings(templateXml) {
     fs.writeFileSync(settingsPath, settingStr);
 }
 
-function updateServers(templateXml, nexusUser, nexusPassword) {
-    var serverXml = templateXml.getElementsByTagName('server')[0];
+function updateServers(templateXml, user, password, index) {
 
-    var userXml = templateXml.createElement('username');
-    userXml.textContent = nexusUser;
-    serverXml.appendChild(userXml);
-    var pwXml = templateXml.createElement('password');
-    pwXml.textContent = nexusPassword;
-    serverXml.appendChild(pwXml);
+    if(templateXml && user && password && index) {
+        var serverXml = templateXml.getElementsByTagName('server')[index];
+
+        var userXml = templateXml.createElement('username');
+        userXml.textContent = user;
+        serverXml.appendChild(userXml);
+        var pwXml = templateXml.createElement('password');
+        pwXml.textContent = password;
+        serverXml.appendChild(pwXml);
+        return true;
+    } else {
+    return false;
+    }
 }
 
-function generateMavenSettings(nexusUser, nexusPassword) {
+function generateMavenSettings(nexusUser, nexusPassword, exchangeUser, exchangePassword) {
 
     var templateXml = getSettingsTemplate();
-    updateServers(templateXml, nexusUser, nexusPassword);
-    writeSettings(templateXml);
+    var nexus_updated = updateServers(templateXml, nexusUser, nexusPassword, NEXUS);
+    var exchange_updated = updateServers(templateXml, exchangeUser, exchangePassword, EXCHANGE);
+
+    if(nexus_updated || exchange_updated) writeSettings(templateXml);
 }
 
-async function build(secret_key, nexusUser, nexusPassword) {
+async function build(secret_key, nexusUser, nexusPassword, exchangeUser, exchangePassword) {
     console.log("Building project artifact ...");
 
-    if (nexusUser && nexusPassword)
-        generateMavenSettings(nexusUser, nexusPassword);
+    generateMavenSettings(nexusUser, nexusPassword, exchangeUser, exchangePassword);
 
     var build_command = 'mvn -B package --file pom.xml -Denv=local ';
     if (secret_key)

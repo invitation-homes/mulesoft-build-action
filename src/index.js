@@ -18,6 +18,8 @@ async function main() {
   const MULESOFT_NEXUS_USER = process.env.MULESOFT_NEXUS_USER;
   const MULESOFT_NEXUS_PASSWORD = process.env.MULESOFT_NEXUS_PASSWORD;
   const PAGERDUTY_INTEGRATION_KEY = process.env.PAGERDUTY_INTEGRATION_KEY;
+  const MULESOFT_DEPLOY_USERNAME = process.env.MULESOFT_DEPLOY_USERNAME;
+  const MULESOFT_DEPLOY_PASSWORD = process.env.MULESOFT_DEPLOY_PASSWORD;
   const SECRET_KEY = process.env.SECRET_KEY;
   const octokit = github.getOctokit(GITHUB_TOKEN);
   const { context = {} } = github;
@@ -31,7 +33,7 @@ async function main() {
       }
       return;
     }
-    if (await maven.build(SECRET_KEY, MULESOFT_NEXUS_USER, MULESOFT_NEXUS_PASSWORD)) {
+    if (await maven.build(SECRET_KEY, MULESOFT_NEXUS_USER, MULESOFT_NEXUS_PASSWORD, MULESOFT_DEPLOY_USERNAME , MULESOFT_DEPLOY_PASSWORD)) {
       await createRelease(octokit, context, release_tag);
     }
     console.log("action executed successfully.");
