@@ -32,6 +32,7 @@ function writeSettings(templateXml) {
 function updateServers(templateXml, user, password, index) {
 
     if(templateXml && user && password && index) {
+        core.info(`user: ${user}`);
         var serverXml = templateXml.getElementsByTagName('server')[index];
 
         var userXml = templateXml.createElement('username');
@@ -49,7 +50,9 @@ function updateServers(templateXml, user, password, index) {
 function generateMavenSettings(nexusUser, nexusPassword, exchangeUser, exchangePassword) {
 
     var templateXml = getSettingsTemplate();
+    core.info(`Nexus User: ${nexusUser}, nexusPassword:  ${nexusPassword}, nexus: ${NEXUS}`);
     var nexus_updated = updateServers(templateXml, nexusUser, nexusPassword, NEXUS);
+    core.info(`Ex User: ${exchangeUser}, ExPassword:  ${exchangePassword}, Ex: ${EXCHANGE}`);
     var exchange_updated = updateServers(templateXml, exchangeUser, exchangePassword, EXCHANGE);
     core.info(`XML template: ${templateXml}`);
     if(nexus_updated || exchange_updated) writeSettings(templateXml);
