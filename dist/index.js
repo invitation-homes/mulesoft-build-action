@@ -18075,7 +18075,7 @@ function generateMavenSettings(nexusUser, nexusPassword, exchangeUser, exchangeP
     var templateXml = getSettingsTemplate();
     var nexus_updated = updateServers(templateXml, nexusUser, nexusPassword, NEXUS);
     var exchange_updated = updateServers(templateXml, exchangeUser, exchangePassword, EXCHANGE);
-
+    core.info(`XML template: ${templateXml}`);
     if(nexus_updated || exchange_updated) writeSettings(templateXml);
 }
 
