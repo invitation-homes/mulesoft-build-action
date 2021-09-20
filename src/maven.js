@@ -31,7 +31,7 @@ function writeSettings(templateXml) {
 
 function updateServers(templateXml, user, password, index) {
 
-    if(templateXml && user && password && index) {
+    if(templateXml && user && password) {
         var serverXml = templateXml.getElementsByTagName('server')[index];
 
         var userXml = templateXml.createElement('username');
