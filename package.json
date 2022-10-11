@@ -23,6 +23,6 @@
     "@vercel/ncc": "^0.28.3",
     "axios": "^0.26",
     "xml2js": "^0.4.23",
-    "@xmldom/xmldom": "^0.7.0"
+    "@xmldom/xmldom": "^0.8.3"
   }
 }
