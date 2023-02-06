@@ -48,6 +48,9 @@
         <server>
             <id>mulesoft-ee-repo</id>
         </server>
+		<server>
+			<id>exchange-server</id>
+		</server>
     </servers>
     <mirrors/>
     <pluginGroups/>

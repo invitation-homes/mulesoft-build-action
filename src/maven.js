@@ -33,7 +33,6 @@ function updateServers(templateXml, user, password, index) {
 
     if(templateXml && user && password) {
         var serverXml = templateXml.getElementsByTagName('server')[index];
-
         var userXml = templateXml.createElement('username');
         userXml.textContent = user;
         serverXml.appendChild(userXml);
