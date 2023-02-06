@@ -49,7 +49,7 @@
             <id>mulesoft-ee-repo</id>
         </server>
 		<server>
-			<id>exchange-server</id>
+			<id>anypoint-exchange</id>
 		</server>
     </servers>
     <mirrors/>

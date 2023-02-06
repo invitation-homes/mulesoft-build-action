@@ -22369,6 +22369,7 @@ exports.ParseError = ParseError;
 
 var core = __nccwpck_require__(2186);
 var path = __nccwpck_require__(1017);
+const axios = __nccwpck_require__(6545);
 var fs = __nccwpck_require__(7147);
 var os = __nccwpck_require__(2037);
 var DOMParser = (__nccwpck_require__(7286)/* .DOMParser */ .a);
@@ -22414,20 +22415,41 @@ function updateServers(templateXml, user, password, index) {
     }
 }
 
-function generateMavenSettings(nexusUser, nexusPassword, exchangeUser, exchangePassword) {
+async function getAccessToken(MULESOFT_CONNECTED_APP_ID, MULESOFT_CONNECTED_APP_SECRET) {
+    try {
+        console.log("Building project artifact ...");
+
+        const response = await axios({
+            method: "post",
+            url: `https://anypoint.mulesoft.com/accounts/api/v2/oauth2/token`,
+            data: {
+                "client_id" : MULESOFT_CONNECTED_APP_ID,
+                "client_secret": MULESOFT_CONNECTED_APP_SECRET,
+                "grant_type" : "client_credentials"
+            }
+        })
+        return response.data.access_token;
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+async function  generateMavenSettings(nexusUser, nexusPassword, exchangeUser, exchangePassword) {
 
     var templateXml = getSettingsTemplate();
     var nexus_updated = updateServers(templateXml, nexusUser, nexusPassword, NEXUS);
-    var exchange_updated = updateServers(templateXml, exchangeUser, exchangePassword, EXCHANGE);
+    var accessToken = await getAccessToken( exchangeUser, exchangePassword)
+    var exchange_updated = updateServers(templateXml, "~~~Token~~~",accessToken, EXCHANGE);
 
     if(nexus_updated || exchange_updated) writeSettings(templateXml);
 }
 
-async function build(secret_key, nexusUser, nexusPassword, exchangeUser, exchangePassword) {
+ async function build(secret_key, nexusUser, nexusPassword, exchangeUser, exchangePassword) {
     console.log("Building project artifact ...");
-
-    generateMavenSettings(nexusUser, nexusPassword, exchangeUser, exchangePassword);
-
+  
+    await generateMavenSettings(nexusUser, nexusPassword, exchangeUser, exchangePassword);
+   
     var build_command = 'mvn -B package --file pom.xml -Denv=local ';
     if (secret_key)
         build_command += "-Dsecret.key=" + secret_key + " "
