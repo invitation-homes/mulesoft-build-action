@@ -10,8 +10,10 @@
             <id>github</id>
             <repositories>
                 <repository>
-                    <id>central</id>
-                    <url>https://repo1.maven.org/maven2</url>
+                     <id>mulesoft-ee-repo</id>
+                    <name>Mulesoft Enterprise subscription library</name>
+                    <url>https://repository.mulesoft.org/nexus-ee/content/repositories/releases-ee/</url>
+                   
                     <releases>
                         <enabled>true</enabled>
                     </releases>
@@ -20,9 +22,9 @@
                     </snapshots>
                 </repository>
                 <repository>
-                    <id>mulesoft-ee-repo</id>
-                    <name>Mulesoft Enterprise subscription library</name>
-                    <url>https://repository.mulesoft.org/nexus-ee/content/repositories/releases-ee/</url>
+                    <id>central</id>
+                     <name>central</name>
+                    <url>https://repo1.maven.org/maven2</url>
                 </repository>
                 <repository>
                     <id>mulesoft-releases</id>
@@ -51,6 +53,9 @@
 		<server>
 			<id>anypoint-exchange</id>
 		</server>
+        <server>
+            <id>anypoint-exchange-v2</id>
+        </server>
     </servers>
     <mirrors/>
     <pluginGroups/>
