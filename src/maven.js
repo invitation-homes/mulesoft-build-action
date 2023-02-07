@@ -39,9 +39,7 @@ function updateServers(templateXml, user, password, index) {
         serverXml.appendChild(userXml);
         var pwXml = templateXml.createElement('password');
         pwXml.textContent = password;
-        
         serverXml.appendChild(pwXml);
-        //console.log(serverXml);
         return true;
     } else {
     return false;
