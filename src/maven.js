@@ -10,6 +10,7 @@ const util = require('util');
 const exec = util.promisify(cp.exec);
 const NEXUS = 0
 const EXCHANGE = 1;
+const EXCHANGE_V2 = 2;
 
 function getSettingsTemplate() {
     core.info("opening settings template");
@@ -72,8 +73,8 @@ async function  generateMavenSettings(nexusUser, nexusPassword, exchangeUser, ex
     var nexus_updated = updateServers(templateXml, nexusUser, nexusPassword, NEXUS);
     var accessToken = await getAccessToken( exchangeUser, exchangePassword)
     var exchange_updated = updateServers(templateXml, "~~~Token~~~",accessToken, EXCHANGE);
-
-    if(nexus_updated || exchange_updated) writeSettings(templateXml);
+    var exchange_v2_updated = updateServers(templateXml, "~~~Token~~~",accessToken, EXCHANGE_V2);
+    if(nexus_updated || exchange_updated || exchange_v2_updated ) writeSettings(templateXml);
 }
 
  async function build(secret_key, nexusUser, nexusPassword, exchangeUser, exchangePassword) {

@@ -51,6 +51,9 @@
 		<server>
 			<id>anypoint-exchange</id>
 		</server>
+        <server>
+            <id>anypoint-exchange-v2</id>
+        </server>
     </servers>
     <mirrors/>
     <pluginGroups/>
