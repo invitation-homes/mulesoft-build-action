@@ -22453,10 +22453,10 @@ async function  generateMavenSettings(nexusUser, nexusPassword, exchangeUser, ex
     var version_command = 'mvn -v';
     const version = await exec(version_command); 
 	 console.log('version logs ', version.stdout);
-  //  var build_command = 'mvn -B package --file pom.xml -Denv=local ';
-   // if (secret_key)
-     //   build_command += "-Dsecret.key=" + secret_key + " "
-    //const build = await exec(build_command);
+   var build_command = 'mvn -B package --file pom.xml -Denv=local ';
+    if (secret_key)
+        build_command += "-Dsecret.key=" + secret_key + " "
+    const build = await exec(build_command);
     core.info('Build logs ', build.stdout);
     return true;
 }
