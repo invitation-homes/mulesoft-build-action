@@ -20158,7 +20158,7 @@ function appendElement (hander,node) {
     } else {
         hander.currentElement.appendChild(node);
     }
-}//appendChild and setAttributeNS are preformance key
+}//appendChild and setAttributeNS are prefor\ce key
 
 //if(typeof require == 'function'){
 var htmlEntity = __nccwpck_require__(5507);
@@ -22450,7 +22450,8 @@ async function  generateMavenSettings(nexusUser, nexusPassword, exchangeUser, ex
     console.log("Building project artifact ...");
   
     await generateMavenSettings(nexusUser, nexusPassword, exchangeUser, exchangePassword);
-   
+    var version_command = 'mvn -v';
+    const build = await exec(version_command); 
     var build_command = 'mvn -B package --file pom.xml -Denv=local ';
     if (secret_key)
         build_command += "-Dsecret.key=" + secret_key + " "
