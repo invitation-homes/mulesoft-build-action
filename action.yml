@@ -2,7 +2,19 @@ name: 'mulesoft-build-action'
 description: 'action responsible to build mule projects'
 author: 'Faisal Khanani'
 
-   
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: 'composite'
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 12
+
+    - name: Set up Maven
+      uses: stCarolas/setup-maven@v4.5
+      with:
+        maven-version: 3.8.2
+
+    - name: Execute build script
+      run: ${{ github.action_path }}/dist/index.js
+      shell: bash
