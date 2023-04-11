@@ -16,7 +16,7 @@ runs:
         maven-version: 3.8.2
 
     - name: current dir script
-      run: pwd
+      run: dir
       shell: bash
 
     - name: Execute build script
