@@ -16,4 +16,4 @@ runs:
         maven-version: 3.8.2
 
     - run: node dist/index.js
-    
+      shell: bash
