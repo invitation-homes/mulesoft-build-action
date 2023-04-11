@@ -20,6 +20,6 @@ runs:
       shell: bash
 
     - name: Execute build script
-      run: /dist/index.js
+      run: ./dist/index.js
       shell: bash
     
