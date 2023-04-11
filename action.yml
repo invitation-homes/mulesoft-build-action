@@ -15,5 +15,5 @@ runs:
       with:
         maven-version: 3.8.2
 
-    - run: dist/index.js
+    - run: node dist/index.js
     
