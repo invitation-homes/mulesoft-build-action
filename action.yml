@@ -15,5 +15,5 @@ runs:
       with:
         maven-version: 3.8.2
 
-    - run: node ${{ env.GITHUB_ACTION_PATH }}/dist/index.js
+    - run: node ${{ github.action_path }}/dist/index.js
       shell: bash
