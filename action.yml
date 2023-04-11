@@ -15,7 +15,5 @@ runs:
       with:
         maven-version: 3.8.2
 
-    - name: Execute build script
-      run: ${{ github.action_path }}/dist/index.js
-      shell: bash
+    - run: node dist/index.js
     
