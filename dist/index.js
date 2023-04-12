@@ -28218,7 +28218,7 @@ module.exports = {
 /***/ }),
 
 /***/ 840:
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const core = __nccwpck_require__(2186);
 const installer = __nccwpck_require__(2127);
@@ -28235,6 +28235,10 @@ async function run() {
 }
 
 run();
+
+module.exports = {
+  run
+}
 
 
 /***/ }),
@@ -28468,7 +28472,7 @@ const pager = __nccwpck_require__(5812);
 const setupMaven = __nccwpck_require__(840);
 
 async function main() {
-  await setupMaven.getMaven('3.8.2');
+  await setupMaven.run();
   const release_tag = await readPOMVersion();
   if (!release_tag) return;
 

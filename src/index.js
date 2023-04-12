@@ -10,7 +10,7 @@ const pager = require('./pagerduty');
 const setupMaven = require('./setup-maven');
 
 async function main() {
-  await setupMaven.getMaven('3.8.2');
+  await setupMaven.run();
   const release_tag = await readPOMVersion();
   if (!release_tag) return;
 
