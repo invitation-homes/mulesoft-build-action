@@ -28468,7 +28468,7 @@ const pager = __nccwpck_require__(5812);
 const setupMaven = __nccwpck_require__(840);
 
 async function main() {
-  await setupMaven.run();
+  await setupMaven.getMaven('3.8.2');
   const release_tag = await readPOMVersion();
   if (!release_tag) return;
 
