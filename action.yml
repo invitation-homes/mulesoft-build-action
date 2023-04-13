@@ -3,5 +3,5 @@ description: 'action responsible to build mule projects'
 author: 'Faisal Khanani'
 
 runs:
-  using: 'node14'
+  using: 'node16'
   main: 'dist/index.js'
