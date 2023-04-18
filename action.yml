@@ -2,7 +2,6 @@ name: 'mulesoft-build-action'
 description: 'action responsible to build mule projects'
 author: 'Faisal Khanani'
 
-   
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'

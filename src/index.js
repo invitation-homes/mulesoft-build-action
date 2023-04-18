@@ -7,10 +7,10 @@ const exec = util.promisify(cp.exec);
 const maven = require('./maven');
 const parser = require('xml2js');
 const pager = require('./pagerduty');
-
+const setupMaven = require('./setup-maven');
 
 async function main() {
-
+  await setupMaven.run();
   const release_tag = await readPOMVersion();
   if (!release_tag) return;
 
