@@ -23,11 +23,10 @@
     "@actions/io": "^1.0.0",
     "@actions/tool-cache": "^1.7.1",
     "@vercel/ncc": "^0.36.1",
-    "@xmldom/xmldom": "^0.7.0",
+    "@xmldom/xmldom": "^0.8.10",
     "axios": "^0.27.2",
-    "semver": "^6.1.1",
+    "semver": "^7.5.2",
     "typed-rest-client": "^1.5.0",
-    "xml2js": "^0.5.0",
-    "xmldom": "^0.6.0"
+    "xml2js": "^0.5.0"
   }
 }
