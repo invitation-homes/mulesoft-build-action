@@ -25,7 +25,7 @@
     "@vercel/ncc": "^0.36.1",
     "@xmldom/xmldom": "^0.8.10",
     "axios": "^0.27.2",
-    "semver": "^7.5.2",
+    "semver": "^6.3.1",
     "typed-rest-client": "^1.5.0",
     "xml2js": "^0.5.0"
   }
