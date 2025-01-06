@@ -114,7 +114,7 @@ async function build(
     exchangePassword
   );
 
-  var build_command = "mvn -B -q package --file pom.xml -Denv=local ";
+  var build_command = "mvn -B -q -X package --file pom.xml -Denv=local ";
   if (secret_key) build_command += "-Dsecret.key=" + secret_key + " ";
   const build = await exec(build_command);
   core.info("Build logs ", build.stdout);
