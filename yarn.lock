@@ -326,14 +326,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^0.28.0":
-  version: 0.28.0
-  resolution: "axios@npm:0.28.0"
+"axios@npm:^1.9.0":
+  version: 1.9.0
+  resolution: "axios@npm:1.9.0"
   dependencies:
-    follow-redirects: "npm:^1.15.0"
+    follow-redirects: "npm:^1.15.6"
     form-data: "npm:^4.0.0"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 10c0/661b1ac946df58e9ef8009820f1589ec7a8154ad3b15799ae01b54b5b2e8f09ead4bef40785af58e173e12f17b4e9fbc4c8425166fc3914cf47631507df9c400
+  checksum: 10c0/9371a56886c2e43e4ff5647b5c2c3c046ed0a3d13482ef1d0135b994a628c41fbad459796f101c655e62f0c161d03883454474d2e435b2e021b1924d9f24994c
   languageName: node
   linkType: hard
 
@@ -522,7 +522,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.15.0":
+"follow-redirects@npm:^1.15.6":
   version: 1.15.9
   resolution: "follow-redirects@npm:1.15.9"
   peerDependenciesMeta:
@@ -875,7 +875,7 @@ __metadata:
     "@actions/tool-cache": "npm:^2.0.2"
     "@vercel/ncc": "npm:^0.36.1"
     "@xmldom/xmldom": "npm:^0.8.10"
-    axios: "npm:^0.28.0"
+    axios: "npm:^1.9.0"
     semver: "npm:^7.5.2"
     typed-rest-client: "npm:^1.5.0"
     xml2js: "npm:^0.5.0"
