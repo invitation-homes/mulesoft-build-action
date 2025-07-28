@@ -1,6 +1,6 @@
 {
   "name": "mulesoft-build-action",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "A GitHub Action to build Mulesoft applications",
   "main": "index.js",
   "scripts": {
